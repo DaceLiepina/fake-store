@@ -63,4 +63,6 @@ async function fetchLogin(user) {
 //     statusCode:""
 // }
 
-// Cookies, localStorage, sessionStorage
+// te saglabaajas info - Cookies, 
+// mees izmantojam so - localStorage, 
+// sessionStorage
