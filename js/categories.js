@@ -8,24 +8,17 @@ async function fetchCategories() {
   const categories = await res.json();
 
   categories.forEach((category) => {
-    const { id, image, name, slug } = category;
+    const { id, image, name } = category;
     const categoryItem = document.createElement("li");
+    categoryItem.id = "category-" + id; 
 
-    categoryItem.id = "category-"+id;
-    
     const img = document.createElement("img");
     img.src = image;
 
     const p = document.createElement("p");
     p.textContent = name;
 
-    categoryItem.append(p, img);
-    categoryItem.classList.add("category-item");
-    categoriesList.append(categoryItem);
-
-    const form = document.createElement("form");
-    form.style.display = "none";
-
+    
     const deleteBtn = document.createElement("button");
     deleteBtn.type = "button";
     deleteBtn.textContent = "Delete";
@@ -33,22 +26,24 @@ async function fetchCategories() {
       fetchDeleteCategory(id);
     };
 
+   
     const editBtn = document.createElement("button");
     editBtn.textContent = "Edit";
+
+    const form = document.createElement("form");
+    form.style.display = "none";
+    form.innerHTML = `
+      <input type="text" name="name" value="${name}" placeholder="name" />
+      <input type="text" name="image" value="${image}" placeholder="image" />
+      <button type="submit">Save</button>
+    `;
+
     editBtn.onclick = () => {
-      if (form.style.display === "block") {
-        form.style.display = "none";
-      } else {
-        form.style.display = "block";
-      }
+      form.style.display = form.style.display === "block" ? "none" : "block";
     };
 
-    form.innerHTML = `<input type="text" name="name" placeholder="name" value="${name}" /><input type="text" name="image" placeholder="image" value="${image}" /><button type="submit">Save</button>`;
-    
     form.addEventListener("submit", (event) => {
       event.preventDefault();
-      // console.log(event.target.name.value);
-      // console.log(event.target.image.value);
       fetchUpdateCategory(
         id,
         event.target.name.value,
@@ -57,13 +52,15 @@ async function fetchCategories() {
       );
     });
 
-categoryItem.append(p, img, editBtn, deleteBtn, form);
-categoryItem.classList.add("category-item");
-categoriesList.append(categoryItem);
+    
+    categoryItem.append(p, img, deleteBtn, editBtn, form);
+    categoryItem.classList.add("category-item");
+    categoriesList.append(categoryItem);
   });
 }
 
 fetchCategories();
+
 
 async function fetchUpdateCategory(id, name, image, categoryItem) {
   const res = await fetch(`https://api.escuelajs.co/api/v1/categories/${id}`, {
@@ -71,27 +68,25 @@ async function fetchUpdateCategory(id, name, image, categoryItem) {
     body: JSON.stringify({ name, image }),
     headers: { "Content-Type": "application/json" },
   });
+
   if (res.ok) {
     categoryItem.firstChild.textContent = name;
     categoryItem.getElementsByTagName("img")[0].src = image;
   }
 }
-async function fetchDeleteCategory(categoryId) {
-  
-  const res = await fetch(
-    `https://api.escuelajs.co/api/v1/products/${productId}`,
-    {
-      method: "DELETE",
-    }
-  );
+
+
+async function fetchDeleteCategory(id) {
+  const res = await fetch(`https://api.escuelajs.co/api/v1/categories/${id}`, {
+    method: "DELETE",
+  });
 
   if (res.ok) {
     const categoryItem = document.getElementById("category-" + id);
-    if(categoryItem) {
+    if (categoryItem) {
       categoryItem.remove();
     }
-    
-    } else {
-      alert("Couldn´t remove the Category!!!")
+  } else {
+    alert("Is not allowed to delete the category!!!");
   }
 }
