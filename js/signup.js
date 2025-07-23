@@ -1,3 +1,5 @@
+
+
 const registerForm = document.getElementById("register-form");
 const messageEl = document.getElementById("message");
 
@@ -19,13 +21,13 @@ async function fetchRegister(newUser) {
   // - тела body - строка в формате JSON
   // - заголовки headers - вспомогательная информация про сам запрос
   //   чтобы сервер могу лучше нас понять
-  // - method  - GET POST PUT DELETE
+  // - method  - GET POST PUT PATCH DELETE
 
   const res = await fetch("https://api.escuelajs.co/api/v1/users", {
-    method: "POST",
-    body: JSON.stringify(newUser),
+    method: "POST",  // kaut kas jauns rodas - registracija, login, new product utt - "post"avitc
+    body: JSON.stringify(newUser), // body tikai POST, PUT, PATCH, bet ne GET
     headers: { "Content-Type": "application/json" },
-  });
+  }); //galvinja - paskaidrojums serverim, ka json parvers stroka
 
   if (res.ok) {
     messageEl.textContent = "Successfully registered!";
