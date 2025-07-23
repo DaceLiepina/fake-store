@@ -10,6 +10,9 @@ async function fetchCategories() {
   categories.forEach((category) => {
     const { id, image, name, slug } = category;
     const categoryItem = document.createElement("li");
+
+    categoryItem.id = "category-"+id;
+    
     const img = document.createElement("img");
     img.src = image;
 
@@ -23,6 +26,13 @@ async function fetchCategories() {
     const form = document.createElement("form");
     form.style.display = "none";
 
+    const deleteBtn = document.createElement("button");
+    deleteBtn.type = "button";
+    deleteBtn.textContent = "Delete";
+    deleteBtn.onclick = () => {
+      fetchDeleteCategory(id);
+    };
+
     const editBtn = document.createElement("button");
     editBtn.textContent = "Edit";
     editBtn.onclick = () => {
@@ -34,7 +44,7 @@ async function fetchCategories() {
     };
 
     form.innerHTML = `<input type="text" name="name" placeholder="name" value="${name}" /><input type="text" name="image" placeholder="image" value="${image}" /><button type="submit">Save</button>`;
-    categoryItem.append(editBtn, form);
+    
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       // console.log(event.target.name.value);
@@ -46,6 +56,10 @@ async function fetchCategories() {
         categoryItem
       );
     });
+
+categoryItem.append(p, img, editBtn, deleteBtn, form);
+categoryItem.classList.add("category-item");
+categoriesList.append(categoryItem);
   });
 }
 
@@ -60,5 +74,24 @@ async function fetchUpdateCategory(id, name, image, categoryItem) {
   if (res.ok) {
     categoryItem.firstChild.textContent = name;
     categoryItem.getElementsByTagName("img")[0].src = image;
+  }
+}
+async function fetchDeleteCategory(categoryId) {
+  
+  const res = await fetch(
+    `https://api.escuelajs.co/api/v1/products/${productId}`,
+    {
+      method: "DELETE",
+    }
+  );
+
+  if (res.ok) {
+    const categoryItem = document.getElementById("category-" + id);
+    if(categoryItem) {
+      categoryItem.remove();
+    }
+    
+    } else {
+      alert("Couldn´t remove the Category!!!")
   }
 }
