@@ -20,6 +20,7 @@ async function fetchProducts() {
     descriptionEl.textContent = description;
     img.src = images[0];
 
+    //izveidojam p elementu cenai!
     const priceElement = document.createElement("p");
     priceElement.textContent = "Price: " + price;
 
@@ -29,7 +30,7 @@ async function fetchProducts() {
     deleteBtn.onclick = () => {
       fetchDeleteProduct(id);
     };
-
+// knopka Update
     const editBtn = document.createElement("button");
     editBtn.type = "button";
     editBtn.textContent = "Edit";
