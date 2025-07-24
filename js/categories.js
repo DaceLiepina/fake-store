@@ -52,7 +52,7 @@ async function fetchCategories() {
       );
     });
 
-    
+    // pievieno categoryItem klasi caur .classList , lai var css pievienot stilus
     categoryItem.append(p, img, deleteBtn, editBtn, form);
     categoryItem.classList.add("category-item");
     categoriesList.append(categoryItem);

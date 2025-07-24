@@ -79,7 +79,9 @@ async function fetchDeleteProduct(productId) {
   );
 
   if (res.ok) {
+    //bez lapas atjaunosanaas izdzesas
     productsList.removeChild(productCard);
+    // sis parvada uz galveno lapu un parlaadee lapu
     // window.location.href = "/";
   }
 }
