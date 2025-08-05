@@ -8,14 +8,14 @@ async function fetchCategories() {
 
   //  пример  <option value="1">Electronics</option>
   categories.forEach((category) => {
-    const option = document.createElement("option"); // <option></option>
-    option.value = category.id; // <option value="44"></option>
-    option.textContent = category.name; // <option value="44">Furniture 670</option>
+    const option = document.createElement("option"); // <option></option> izveidojas option tags
+    option.value = category.id; // <option value="44"></option> pievieno option tagam veertiibu peec ID
+    option.textContent = category.name; // <option value="44">Furniture 670</option>  name buus texta kontents
     select.appendChild(option);
-  });
+  }); // pievieno 
 }
 
-fetchCategories();
+fetchCategories();  // izsauc metodi
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -36,7 +36,7 @@ async function fetchCreateProduct(product) {
     method: "POST",
     body: JSON.stringify(product),
     headers: { "Content-Type": "application/json" },
-  });
+  });  // caur funkciju nosuuta jaunos pievienotos produktus uz serveri
 
   if (res.ok) {
     window.location.href = "/";
